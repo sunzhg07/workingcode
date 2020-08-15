@@ -1,0 +1,22 @@
+! proton neutron number
+3,1
+! interaction file
+2
+!total j
+0
+! one body 
+vm1b.int
+! twobody
+vm2b.int
+! threebody
+vn3loEM_srg19_hw24_N04_A6_3bd.dat
+! oper 1b
+vm1b.int
+! oper 2b
+vm2b.int
+! oper 3b
+obar_n3loEM_srg19_hw24_N04_A6_3bd.dat
+! output file
+output
+! single particle description
+msp.dat

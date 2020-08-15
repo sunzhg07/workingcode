@@ -1,0 +1,16 @@
+
+ Energy levels
+
+    N    J prty N_Jp    T     E(MeV)  Ex(MeV)  log-file
+
+    1     3 +     1     0    -60.852    0.000  log_Na22_usdb_m0p.txt 
+    2     1 +     1     0    -60.532    0.320  log_Na22_usdb_m0p.txt 
+    3     0 +     1     1    -59.941    0.911  log_Na22_usdb_m0p.txt 
+    4     4 +     1     0    -59.828    1.023  log_Na22_usdb_m0p.txt 
+    5     5 +     1     0    -59.212    1.639  log_Na22_usdb_m0p.txt 
+    6     1 +     2     0    -58.885    1.966  log_Na22_usdb_m0p.txt 
+    7     3 +     2     0    -58.855    1.997  log_Na22_usdb_m0p.txt 
+    8     2 +     1     1    -58.484    2.368  log_Na22_usdb_m0p.txt 
+    9     3 +     3     0    -57.820    3.031  log_Na22_usdb_m0p.txt 
+   10     2 +     2     0    -57.656    3.195  log_Na22_usdb_m0p.txt 
+
