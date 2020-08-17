@@ -1,7 +1,7 @@
 ! hermit true or false
-T
-! normalized
 F
+!
+T
 ! jj schem single particle file
 vspe.dat
 ! mschem single particle file

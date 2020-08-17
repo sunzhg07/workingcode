@@ -37,7 +37,7 @@ subroutine sm_lanczos
 
   enddo
   do i=1,nstate
-    if(iam==0)write(*,*)i,'th state:',and_eig(i)
+    if(iam==0)write(*,*)i,'th state:',and_eig(i)+3.6890141085231161
   enddo
   endif
 
@@ -58,7 +58,7 @@ subroutine no_lanc
   call lapack_diag(haml,lcvec,lcvecl,lceig,num_mbasis)
   write(*,*)nstate
   do i=1,nstate
-    if(iam==0)write(*,*)i,'th state:',lceig(i)
+    if(iam==0)write(*,*)i,'th state:',lceig(i)+3.6890141085231161
   enddo
 
 

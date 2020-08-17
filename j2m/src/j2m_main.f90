@@ -189,7 +189,7 @@ read(5,*)jj2b_file
   jmax=0
   do i=1,nj2b
     read(12,*)a,b,c,d,jt,vtmp
-    jj2b(i)%val=vtmp*dij(a,b)*dij(c,d)
+    jj2b(i)%val=vtmp!*dij(a,b)*dij(c,d)
 
     jj2b(i)%idx=ishft(a,35)+ishft(b,28)+ishft(c,14)+ishft(d,7)+jt
     if(jmin>jt)jmin=jt
