@@ -9,6 +9,9 @@ program main
   call setup_channels
   call read_jcoupled_interactions
   call commons_to_angmom
+  call hermitelize
+
+  stop
   call setup_mscheme_interactions
 
   
@@ -283,3 +286,107 @@ subroutine setup_mscheme_interactions
   enddo
 
 end subroutine setup_mscheme_interactions
+
+
+subroutine hermitelize
+  use single_particle_orbits
+  use operators
+  use channel_info
+  use j2m_input
+  implicit none
+  integer:: channel,bra,ket,ia,ib,ic,id,ja,jb,jc,jd
+  integer:: bra1,ket1,jt
+  real*8:: dij
+  real*8:: tmp
+  integer:: nconfs,ndim
+  integer,allocatable:: valid_conf(:,:)
+  COMPLEX*16, ALLOCATABLE, DIMENSION(:,:) :: hh,v,ed,rvec,lvec,u,u_inv,hback
+  COMPLEX*16, ALLOCATABLE, DIMENSION(:) :: ee
+  complex*16:: dd
+
+  do channel=1, vj2b%len
+    ndim=0
+    nconfs=size(lookup_jab_configs(channel)%ival,2)
+    do bra=1,nconfs
+      ia=lookup_jab_configs(channel)%ival(1,bra)
+      ib=lookup_jab_configs(channel)%ival(2,bra)
+      if(ia>ib)cycle
+      ndim=ndim+1
+    enddo
+    allocate(valid_conf(3,ndim))
+
+
+    ndim=0
+    do bra=1,nconfs
+      ia=lookup_jab_configs(channel)%ival(1,bra)
+      ib=lookup_jab_configs(channel)%ival(2,bra)
+      if(ia>ib)cycle
+      ndim=ndim+1
+      valid_conf(1:2,ndim)=lookup_jab_configs(channel)%ival(:,bra)
+      valid_conf(3,ndim)=bra
+    enddo
+
+    allocate(u(ndim,ndim));u=0.d0
+    allocate(u_inv(ndim,ndim));u_inv=0.d0
+    allocate(hh(ndim,ndim));hh=0.d0
+    allocate(hback(ndim,ndim));hback=0.d0
+    allocate(ed(ndim,ndim));ed=0.d0
+    allocate(rvec(ndim,ndim));rvec=0.d0
+    allocate(lvec(ndim,ndim));lvec=0.d0
+    allocate(ee(ndim)); ee=0.d0
+    do bra=1,ndim
+      ia=valid_conf(1,bra)
+      ib=valid_conf(2,bra)
+      bra1=valid_conf(3,bra)
+      do ket=1,ndim
+      ic=valid_conf(1,ket)
+      id=valid_conf(2,ket)
+      ket1=valid_conf(3,ket)
+
+      tmp=0.d0
+      
+      tmp=tmp+vj2b%op(channel)%val(bra1,ket1)/dij(ia,ib)/dij(ic,id)
+
+                  if (bra1 == ket1) then
+                    !! suppose 1bd off diagonal is 0
+                     tmp = tmp + vj1b(ia, ia) + vj1b(ib, ib)
+                     ed(bra,ket)=vj1b(ia, ia) + vj1b(ib, ib)
+                   endif
+          hh(bra,ket)=tmp
+
+    enddo
+  enddo
+  hback=hh
+  call lapack_diag(hh,rvec,lvec, ee, ndim)
+
+  call cmplxmatinv(rvec,ndim,dd)
+  
+  lvec=0.
+  lvec=matmul(transpose(rvec),rvec)
+  
+  call sqrtmat(lvec,u,u_inv ,ndim)
+
+  lvec=matmul(u,hback)
+  hh=matmul(lvec,u_inv)
+
+!  call lapack_diag(hh,rvec,lvec, ee, ndim)
+  hh=hh-ed
+
+  jt=j_channels(channel)%jj
+    do bra=1,ndim
+      ia=valid_conf(1,bra)
+      ib=valid_conf(2,bra)
+      do ket=1,ndim
+      ic=valid_conf(1,ket)
+      id=valid_conf(2,ket)
+      write(999,'(5(I4,2x),1F13.6)')ia,ib,ic,id,jt,real(hh(bra,ket))*dij(ia,ib)*dij(ic,id)
+    enddo
+  enddo
+  
+
+  DEALLOCATE(hh,rvec,lvec,ee,ed,u,u_inv,hback)
+      
+
+    deallocate(valid_conf)
+  enddo
+  end subroutine hermitelize

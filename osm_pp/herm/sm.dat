@@ -21,18 +21,13 @@ output
 ! sp file
 msp.dat
 ! num state
-10
+5
 ! max number_it
 200
 ! truncation or not
 T
 ! truncations, number of j orbits , and nmin, nmax
-8
-0 8
-0 6
+3
+0 4
 0 4
 0 2
-0 2
-0 2
-0 2
-0 10

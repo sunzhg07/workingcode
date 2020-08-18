@@ -1,4 +1,4 @@
-XLF = gfortran -Og -g -fbounds-check  -Wall -Wextra -ftrapv -fcheck=all -finit-local-zero
+XLF = gfortran -Og -g -fbounds-check  -Wall -Wextra -ftrapv -fcheck=all -finit-local-zero -llapack -lblas
 
 
 all_objects = j2m_module.o j2m_main.o ccm_library.o
