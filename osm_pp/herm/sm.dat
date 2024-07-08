@@ -1,5 +1,5 @@
 np nn
-5,3
+0,6
 number_int
 2
 totj
@@ -21,13 +21,15 @@ output
 ! sp file
 msp.dat
 ! num state
-5
+20
 ! max number_it
 200
 ! truncation or not
 T
 ! truncations, number of j orbits , and nmin, nmax
-3
-0 4
+5
+0 2
 0 4
 0 2
+0 2
+0 4
